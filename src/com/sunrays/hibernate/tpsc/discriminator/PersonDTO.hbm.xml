@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 22, 2013 6:03:03 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping package="com.sunrays.hibernate.tpsc.discriminator">
+	<class name="PersonDTO" table="PERSON">
+		<id name="id" type="java.lang.Long">
+			<column name="ID" />
+			<generator class="increment" />
+		</id>
+		<discriminator column="PERSON_TYPE" type="java.lang.String"></discriminator>
+		<property name="firstName" type="java.lang.String">
+			<column name="FIRST_NAME" />
+		</property>
+		<property name="lastName" type="java.lang.String">
+			<column name="LAST_NAME" />
+		</property>
+		<property name="degree" type="java.lang.String">
+			<column name="DEGREE" />
+		</property>
+
+		<!--Mapping For EngineerDTO -->
+		<subclass name="EngineerDTO" discriminator-value="Engineer">
+			<join table="ENGINEER">
+				<key column="PERSON_ID"></key>
+				<property name="noOfProjects" type="java.lang.Integer">
+					<column name="NO_OF_PROJECTS" />
+				</property>
+				<property name="companyId" type="java.lang.String">
+					<column name="COMPANY_ID" />
+				</property>
+			</join>
+		</subclass>
+
+		<!--Mapping For DoctorDTO -->
+		<subclass name="DoctorDTO" discriminator-value="Doctor">
+			<join table="DOCTOR">
+				<key column="PERSON_ID"></key>
+				<property name="noOfSurgeries" type="java.lang.Integer">
+					<column name="NO_OF_SURGERIES" />
+				</property>
+				<property name="hospitalAddress" type="java.lang.String">
+					<column name="HOSPITAL_ADDRESS" />
+				</property>
+				<property name="specialization" type="java.lang.String">
+					<column name="SPECIALIZATION" />
+				</property>
+			</join>
+		</subclass>
+
+		<!--Mapping For LawyerDTO -->
+		<subclass name="LawyerDTO" discriminator-value="Lawyer">
+			<join table="LAWYER">
+				<key column="PERSON_ID"></key>
+				<property name="noOfCases" type="java.lang.Integer">
+					<column name="NO_OF_CASES" />
+				</property>
+				<property name="currentClient" type="java.lang.String">
+					<column name="CURRENT_CLIENT" />
+				</property>
+				<property name="winPerc" type="java.lang.Double">
+					<column name="WIN_PERCENTAGE" />
+				</property>
+			</join>
+		</subclass>
+	</class>
+</hibernate-mapping>
